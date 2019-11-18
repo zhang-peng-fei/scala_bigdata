@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ScalaCompilerConfiguration">
-    <profile name="Maven 1" modules="scala_flink" />
+    <profile name="Maven 1" modules="scala_bigdata_learning,scala_flink" />
   </component>
 </project>

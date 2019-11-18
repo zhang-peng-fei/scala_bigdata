@@ -11,9 +11,9 @@ object Demo1 {
 //    var var1 = 2; // var1: Int = 2
 //    var var16 = 2 + 3; // var2: Int = 5
 //    var var3 = 2.+(3); // var3: Int = 5
-    2.+(3).*(5) //> res23: Int = 25
-    2 + (3) * (5) //> res24: Int = 17
-    2 + 3 * 5 //> res25: Int = 17
+    val t1 = 2.+(3).*(5) //> res23: Int = 25
+    val t2 = 2 + (3) * (5) //> res24: Int = 17
+    val t3 = 2 + 3 * 5 //> res25: Int = 17
 
     /**
       * 大数字操作

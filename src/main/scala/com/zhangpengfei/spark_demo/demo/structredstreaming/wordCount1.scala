@@ -2,10 +2,10 @@ package com.zhangpengfei.spark_demo.demo.structredstreaming
 
 import org.apache.spark.sql.{DataFrame, Encoder, Encoders, SparkSession}
 
-object wordcount1 {
+object wordCount1 {
 
   implicit val mapEncoder = org.apache.spark.sql.Encoders.kryo[Map[String, Any]]
-  private val string: Encoder[String] = Encoders.STRING
+  private val stringEncoder: Encoder[String] = Encoders.STRING
 
   def main(args: Array[String]): Unit = {
     val sparkSession = SparkSession.builder().appName("structredstreamingcount").getOrCreate()

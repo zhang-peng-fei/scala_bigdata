@@ -6,7 +6,7 @@ import org.apache.spark.sql.expressions.scalalang.typed
 import org.apache.spark.sql.{DataFrame, Dataset, Encoders, SparkSession}
 import org.apache.spark.sql.types.{DataType, StructType}
 
-object baseoperations {
+object baseOperations {
 
 
   def main(args: Array[String]): Unit = {
@@ -17,7 +17,7 @@ object baseoperations {
 
     // 构建 SparkSession
     val sparkSession = SparkSession.builder()
-      .appName("basicoperation")
+      .appName("basicOperation")
       .master("local[*]")
       .getOrCreate()
 
@@ -28,21 +28,20 @@ object baseoperations {
       .add("signal", "integer")
       .add("time", "string")
 
-    // 将数据读取为 DataFrame
+    // 将目录下的数据文件读取为 DataFrame，只要文件夹下多了新的文件，程序就会自动扫到，并执行下面的逻辑
     val df: DataFrame = sparkSession.readStream
       .option("seq", ",")
       .schema(deviceSchema)
+      // 下面的目录必须是文件夹，不能是文件
       .csv("F:/bigdata/spark/resources/csv")
 
-
-
+    // start 流程序，因为是流，所以输出模式为 update
     val query = df.writeStream
       .outputMode("update")
       .format("console")
       .start()
     query.awaitTermination()
 
-    df.foreach(print(_))
 
 
     // 将 DataFrame 转换成 DataSet

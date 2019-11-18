@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/scala_flink.iml" filepath="$PROJECT_DIR$/scala_flink.iml" />
+      <module fileurl="file://$PROJECT_DIR$/scala_bigdata_learning.iml" filepath="$PROJECT_DIR$/scala_bigdata_learning.iml" />
     </modules>
   </component>
 </project>
