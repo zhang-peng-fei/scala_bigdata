@@ -1,5 +1,6 @@
 package com.zhangpengfei.spark_demo.demo.structredstreaming
 
+import com.zhangpengfei.util.CommUtils
 import org.apache.spark.sql.{DataFrame, Encoder, Encoders, SparkSession}
 
 object wordCount1 {
@@ -8,9 +9,32 @@ object wordCount1 {
   private val stringEncoder: Encoder[String] = Encoders.STRING
 
   def main(args: Array[String]): Unit = {
-    val sparkSession = SparkSession.builder().appName("structredstreamingcount").getOrCreate()
-    wc1(sparkSession)
-    wc2(sparkSession) // 输出模式为complete模式
+    val sparkSession = SparkSession.builder()
+      .appName("structredstreamingcount")
+      .master("local[*]")
+      .getOrCreate()
+
+    val lines = sparkSession.readStream
+      .text(CommUtils.getBasicPath + "fileDir/wc")
+    val wc = lines.as(Encoders.STRING)
+      .flatMap(_.split(" "))(Encoders.STRING)
+      .groupBy("value")
+      .count()
+      .orderBy("count")
+
+
+
+    val query = wc.writeStream
+      .format("console")
+      .outputMode("complete")
+      .start()
+    query.awaitTermination()
+
+    wc.show()
+
+
+//    wc1(sparkSession)
+//    wc2(sparkSession) // 输出模式为complete模式
 
 
   }
