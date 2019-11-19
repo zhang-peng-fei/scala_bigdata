@@ -28,18 +28,18 @@ object KafkaStreaming {
 //      .option("startingOffsets", "earliest")
 //      .option("endingOffsets", "latest")
       .load()
-      .selectExpr("CAST(value AS STRING)")
-      .as[String](Encoders.STRING)
+//      .selectExpr("CAST(value AS STRING)")
+//      .as[String](Encoders.STRING)
     // 类型转换
-//    dataFrame.selectExpr("CAST(key AS STRING)", "CAST(value AS STRING)")
-//      .as[(String, String)](Encoders.tuple(Encoders.STRING,Encoders.STRING))
+    dataFrame.selectExpr("CAST(key AS STRING)", "CAST(value AS STRING)")
+      .as[(String, String)](Encoders.tuple(Encoders.STRING,Encoders.STRING))
 
     // wordCount
-    val wordCounts = dataFrame.flatMap(_.split(" "))(Encoders.STRING).groupBy("value").count()
+//    val wordCounts = dataFrame.flatMap(_.split(" "))(Encoders.STRING).groupBy("value").count()
 
-    val query = wordCounts.writeStream
+    val query = dataFrame.writeStream
       .format("console")
-      .outputMode("complete")
+      .outputMode("update")
       .start()
     query.awaitTermination()
 
