@@ -6,11 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="quickstart" />
+        <module name="scala_bigdata" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="8">
-      <module name="quickstart" target="1.8" />
+      <module name="scala_bigdata" target="1.8" />
       <module name="scala_bigdata_learning" target="1.8" />
     </bytecodeTargetLevel>
   </component>
