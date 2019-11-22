@@ -138,10 +138,10 @@ object TableDataDemo1 {
     val admin = connection.getAdmin()
 
     val demo = new TableDataDemo1(conf, admin)
-    //        demo.insertData("tbs")
-    //    demo.scanData("tbs")
-    //    demo.getDataByRowKey("tbs", "rowKey1")
-    //    demo.deleteDataByRowKey("tbs", "rowKey9")
+    demo.insertData("tbs")
+    demo.scanData("tbs")
+    demo.getDataByRowKey("tbs", "rowKey1")
+    demo.deleteDataByRowKey("tbs", "rowKey9")
     demo.countData("tbs")
   }
 }
