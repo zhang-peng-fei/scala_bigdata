@@ -1,4 +1,4 @@
-package com.zhangpengfei.flink_demo.fs
+package com.zhangpengfei.flink.fs
 
 object FsDemo {
 

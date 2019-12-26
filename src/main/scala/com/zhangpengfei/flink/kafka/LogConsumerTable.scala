@@ -1,23 +1,15 @@
-package com.zhangpengfei.flink_demo.kafka
+package com.zhangpengfei.flink.kafka
 
-import java.io.IOException
-import java.nio.charset.StandardCharsets
 import java.time.ZoneId
 
-import org.apache.flink.api.common.serialization.SimpleStringEncoder
 import org.apache.flink.api.common.typeinfo.{TypeInformation, Types}
 import org.apache.flink.api.scala._
 import org.apache.flink.core.fs.FileSystem.WriteMode
-import org.apache.flink.core.fs.Path
-import org.apache.flink.core.io.SimpleVersionedSerializer
-import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.node.ObjectNode
-import org.apache.flink.streaming.api.functions.sink.filesystem.bucketassigners.SimpleVersionedStringSerializer
-import org.apache.flink.streaming.api.functions.sink.filesystem.{BucketAssigner, StreamingFileSink}
 import org.apache.flink.streaming.api.scala.{DataStream, StreamExecutionEnvironment}
-import org.apache.flink.streaming.connectors.fs.{SequenceFileWriter, StringWriter, Writer}
+import org.apache.flink.streaming.connectors.fs.StringWriter
 import org.apache.flink.streaming.connectors.fs.bucketing.{BucketingSink, DateTimeBucketer}
-import org.apache.flink.table.api.{EnvironmentSettings, Table}
 import org.apache.flink.table.api.scala.StreamTableEnvironment
+import org.apache.flink.table.api.{EnvironmentSettings, Table}
 import org.apache.flink.table.descriptors.{Json, Kafka, Schema}
 import org.apache.flink.table.sinks.CsvTableSink
 import org.apache.flink.types.Row
@@ -54,8 +46,10 @@ object LogConsumerTable {
       .connect(
         new Kafka()
           .version("0.10")
-          .topic("topic1")
-          .startFromLatest()
+          .topic("log_dls")
+          //          .startFromEarliest()
+          //          .startFromLatest()
+          .startFromSpecificOffset(0, 26L)
           .property("zookeeper.connect", zookeeper)
           .property("bootstrap.servers", kafka))
       .withFormat(
@@ -65,13 +59,45 @@ object LogConsumerTable {
       )
       .withSchema(
         new Schema()
-          .field("username", "VARCHAR")
-          .field("age", "DECIMAL")
-          .field("gender", "VARCHAR")
+          .field("apiType", "VARCHAR")
+          .field("backendResponseCode", "VARCHAR")
+          .field("businessResponseCode", "VARCHAR")
+          .field("callByte", "INT")
+          .field("callEndTime", "VARCHAR")
+          .field("callIp", "VARCHAR")
+          .field("callStartTime", "VARCHAR")
+          .field("dayId", "INT")
+          .field("errLevel", "VARCHAR")
+          .field("gatewayBusinessResponseCode", "VARCHAR")
+          .field("gatewayResponseCode", "VARCHAR")
+          .field("host", "VARCHAR")
+          .field("hourId", "INT")
+          .field("logCnt", "VARCHAR")
+          .field("logId", "INT")
+          .field("method", "VARCHAR")
+          .field("monthId", "INT")
+          .field("rawData", "VARCHAR")
+          .field("reqCnt", "VARCHAR")
+          .field("requestForwardTime", "VARCHAR")
+          .field("requestParam", "VARCHAR")
+          .field("requestReceivedTime", "VARCHAR")
+          .field("requestSize", "VARCHAR")
+          .field("responseForwardTime", "VARCHAR")
+          .field("responseParam", "VARCHAR")
+          .field("responseReceivedTime", "VARCHAR")
+          .field("responseSize", "VARCHAR")
+          .field("resultFlag", "INT")
+          .field("sId", "VARCHAR")
+          .field("seqId", "VARCHAR")
+          .field("subTime", "INT")
+          .field("traceId", "VARCHAR")
+          .field("uri", "VARCHAR")
+          .field("userAgent", "VARCHAR")
+          .field("userId", "VARCHAR")
       )
       .inAppendMode()
-      .registerTableSource("user")
-    val stream: Table = fsTableEnv.scan("user")
+      .registerTableSource("api_call_log")
+    val stream: Table = fsTableEnv.scan("api_call_log")
 
 
     // 注册数据结果表（本地HDFS文件，两种方式[BucketingSink,StreamingFileSink]）
@@ -132,7 +158,7 @@ object LogConsumerTable {
     // 数据处理，读和写(打印到控制台)
     fsTableEnv
       .toAppendStream[Row](stream)
-    //      .print()
+      .print()
     //      .setParallelism(3)
     // 注册数据结果表（本地文件）
     val sink: CsvTableSink = new CsvTableSink(
@@ -143,8 +169,14 @@ object LogConsumerTable {
 
     fsTableEnv.registerTableSink(
       "res1",
-      Array[String]("username", "age", "gender"),
-      Array[TypeInformation[_]](Types.STRING, Types.BIG_DEC, Types.STRING),
+      Array[String]("apiType", "backendResponseCode", "businessResponseCode", "callByte", "callEndTime", "callIp", "callStartTime"
+        , "dayId", "errLevel", "gatewayBusinessResponseCode", "gatewayResponseCode", "host", "hourId", "logCnt", "logId", "method"
+        , "monthId", "rawData", "reqCnt", "requestForwardTime", "requestParam", "requestReceivedTime", "requestSize", "responseForwardTime", "responseParam", "responseReceivedTime"
+        , "responseSize", "resultFlag", "sId", "seqId", "subTime", "traceId", "uri", "userAgent", "userId"),
+      Array[TypeInformation[_]](Types.STRING, Types.STRING, Types.STRING, Types.INT, Types.STRING, Types.STRING, Types.STRING, Types.INT
+        , Types.STRING, Types.STRING, Types.STRING, Types.STRING, Types.INT, Types.STRING, Types.INT, Types.STRING, Types.INT, Types.STRING
+        , Types.STRING, Types.STRING, Types.STRING, Types.STRING, Types.STRING, Types.STRING, Types.STRING, Types.STRING, Types.STRING
+        , Types.INT, Types.STRING, Types.STRING, Types.INT, Types.STRING, Types.STRING, Types.STRING, Types.STRING),
       sink)
     stream.insertInto("res1")
 
