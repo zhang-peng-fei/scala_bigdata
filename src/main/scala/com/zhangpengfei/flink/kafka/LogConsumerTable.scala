@@ -16,7 +16,6 @@ import org.apache.flink.types.Row
 
 object LogConsumerTable {
 
-
   def main(args: Array[String]): Unit = {
 
     var zookeeper = "192.168.78.135:2181"
