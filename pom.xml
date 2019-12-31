@@ -21,13 +21,13 @@ under the License.
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.myorg.quickstart</groupId>
-    <artifactId>quickstart</artifactId>
+    <groupId>com.zhangpengfei.scala</groupId>
+    <artifactId>bigdata</artifactId>
     <version>0.1</version>
     <packaging>jar</packaging>
 
-    <name>Flink Quickstart Job</name>
-    <url>http://www.myorganization.org</url>
+    <name>scala_bigdata</name>
+    <url>https://github.com/zhang-peng-fei/scala_bigdata</url>
 
     <repositories>
         <repository>
@@ -50,17 +50,19 @@ under the License.
         <scala.binary.version>2.11</scala.binary.version>
         <scala.version>2.11.12</scala.version>
         <spark.version>2.1.1</spark.version>
-        <hadoop.version>2.7.5</hadoop.version>
+        <hadoop.version>2.6.0</hadoop.version>
         <hbase.version>1.2.0</hbase.version>
         <kafka.version>0.10</kafka.version>
         <hive.version>2.3.5</hive.version>
         <!-- scope -->
-        <flink.scope>provided</flink.scope>
+        <flink.scope>compile</flink.scope>
         <scala.scope>provided</scala.scope>
         <spark.scope>provided</spark.scope>
-        <hadoop.scope>provided</hadoop.scope>
+        <hadoop.scope>compile</hadoop.scope>
         <hbase.scope>provided</hbase.scope>
         <hive.scope>provided</hive.scope>
+        <flink-connector-filesystem.scope>compile</flink-connector-filesystem.scope>
+        <flink-connector-kafka.scope>compile</flink-connector-kafka.scope>
     </properties>
 
     <dependencies>
@@ -102,7 +104,7 @@ under the License.
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-table-planner_${scala.binary.version}</artifactId>
             <version>${flink.version}</version>
-            <!--<scope>${flink.scope}}</scope>-->
+            <scope>${flink.scope}</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.flink</groupId>
@@ -114,7 +116,7 @@ under the License.
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-table-api-java-bridge_${scala.binary.version}</artifactId>
             <version>${flink.version}</version>
-            <!--<scope>${flink.scope}}</scope>-->
+            <scope>${flink.scope}</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.flink</groupId>
@@ -144,7 +146,7 @@ under the License.
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-connector-filesystem_${scala.binary.version}</artifactId>
             <version>${flink.version}</version>
-            <scope>compile</scope>
+            <scope>${flink-connector-filesystem.scope}</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.flink</groupId>
@@ -158,6 +160,32 @@ under the License.
             <version>2.7.5-8.0</version>
             <scope>${flink.scope}</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-connector-kafka-${kafka.version}_${scala.binary.version}</artifactId>
+            <version>${flink.version}</version>
+            <scope>${flink-connector-kafka.scope}</scope>
+        </dependency>
+        <!-- flink 依赖结束-->
+
+        <!-- hadoop 依赖
+        hadoop-hdfs
+        1、hadoop-common
+        2、hive-exec
+        -->
+        <!-- https://mvnrepository.com/artifact/org.apache.hadoop/hadoop-hdfs -->
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-hdfs</artifactId>
+            <version>2.6.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-common</artifactId>
+            <version>${hadoop.version}</version>
+            <scope>${hadoop.scope}</scope>
+        </dependency>
         <dependency>
             <groupId>org.apache.hive</groupId>
             <artifactId>hive-exec</artifactId>
@@ -169,24 +197,6 @@ under the License.
             </exclusions>
             <version>${hive.version}</version>
             <scope>${hive.scope}</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.flink</groupId>
-            <artifactId>flink-connector-kafka-${kafka.version}_${scala.binary.version}</artifactId>
-            <version>${flink.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <!-- flink 依赖结束-->
-
-        <!-- hadoop 依赖
-        1、hadoop-common
-
-        -->
-        <dependency>
-            <groupId>org.apache.hadoop</groupId>
-            <artifactId>hadoop-common</artifactId>
-            <version>${hadoop.version}</version>
-            <scope>${hadoop.scope}</scope>
         </dependency>
         <!-- hadoop 依赖结束-->
 
@@ -200,6 +210,7 @@ under the License.
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-core_${scala.binary.version}</artifactId>
             <version>${spark.version}</version>
+            <scope>${spark.scope}</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.spark</groupId>
@@ -211,6 +222,7 @@ under the License.
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-sql_${scala.binary.version}</artifactId>
             <version>${spark.version}</version>
+            <scope>${spark.scope}</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.spark</groupId>
@@ -252,6 +264,7 @@ under the License.
             <scope>runtime</scope>
         </dependency>
     </dependencies>
+
 
     <build>
         <plugins>

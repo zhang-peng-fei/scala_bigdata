@@ -18,23 +18,12 @@ object LogConsumerTable {
 
   def main(args: Array[String]): Unit = {
 
-    var zookeeper = "192.168.78.135:2181"
-    var kafka = "192.168.78.135:9092"
-    var hdfsPath = "hdfs://192.168.78.135:9000/user/hive/bendi/"
-    if (args.length > 0) {
-      val init = args(0)
-
-      //1：测试环境；2：生产环境
-      if (init != null && init == 1) {
-        zookeeper = "10.142.149.245:2181/kafka"
-        kafka = "192.168.78.135:9092"
-        hdfsPath = "hdfs://192.168.78.135:9000/user/hive/bendi/"
-
-      } else if (init != null && init == 2) {
-        zookeeper = "10.142.114.211:2181,10.142.114.231:2181,10.142.114.241:2181"
-        kafka = "10.142.117.55:9093,10.142.117.56:9093,10.142.117.57:9093"
-      }
-    }
+    val zookeeper = "192.168.78.135:2181"
+    val kafka = "192.168.78.135:9092"
+    val hdfsPath = "hdfs://192.168.78.135:9000/user/hive/bendi/"
+    //    val zookeeper = "10.142.114.211:2181,10.142.114.231:2181,10.142.114.241:2181"
+    //    val kafka = "10.142.117.55:9093,10.142.117.56:9093,10.142.117.57:9093"
+    //    val hdfsPath = "hdfs://10.142.149.245:8082/user/hive/warehouse/api_log/"
 
     val fsSettings = EnvironmentSettings.newInstance().useOldPlanner().inStreamingMode().build()
     val env = StreamExecutionEnvironment.getExecutionEnvironment
@@ -48,8 +37,9 @@ object LogConsumerTable {
           .topic("log_dls")
           //          .startFromEarliest()
           //          .startFromLatest()
-          .startFromSpecificOffset(0, 26L)
+          .startFromSpecificOffset(0, 30L)
           .property("zookeeper.connect", zookeeper)
+
           .property("bootstrap.servers", kafka))
       .withFormat(
         new Json()
@@ -109,50 +99,6 @@ object LogConsumerTable {
     hdfsSink1.setBatchRolloverInterval(20); //
     hdfsStream.addSink(hdfsSink1)
 
-    /*class mSimpleVersionedSerializer extends SimpleVersionedSerializer[Row] {
-      override def getVersion: Int = 77
-
-      override def serialize(obj: Row): Array[Byte] = {
-        obj.toString.getBytes(StandardCharsets.UTF_8)
-      }
-
-      override def deserialize(version: Int, serialized: Array[Byte]): Row = {
-        if (version != 77) throw new IOException("version mismatch")
-        else return Row.of(new String(serialized, StandardCharsets.UTF_8))
-      }
-    }
-
-    class DayBucketAssigner extends BucketAssigner[ObjectNode, Row] {
-      override def getBucketId(element: ObjectNode, context: BucketAssigner.Context): Row = {
-        //context.currentProcessingTime()
-        val age = element.get("age").toString
-        // wrap can use day + "/" + xxx
-        return Row.of(age)
-      }
-
-      override def getSerializer: SimpleVersionedSerializer[Row] = {
-        return new mSimpleVersionedSerializer
-      }
-    }
-
-    val assigner = new DayBucketAssigner
-    val hdfsSink2: StreamingFileSink[Row] = StreamingFileSink
-      .forRowFormat(new Path(hdfsPath), new SimpleStringEncoder[Row]("UTF-8")) // 所有数据都写到同一个路径
-      .withBucketAssigner(assigner)
-      .build()
-    hdfsStream.addSink(hdfsSink2)*/
-
-
-    // 注册数据结果表（本地HIVE表）
-    /*val name = "muser"
-    val defaultDatabase = "default"
-    val hiveConfDir = "f:/hiveconf"
-
-    val version = "2.3.5" // or 1.2.1
-    val hive = new HiveCatalog(name, defaultDatabase, hiveConfDir, version)
-    fsTableEnv.registerCatalog("myhive", hive)
-    fsTableEnv.useCatalog("myhive")
-    fsTableEnv.listTables().map(print(_))*/
 
     // 数据处理，读和写(打印到控制台)
     fsTableEnv
@@ -166,7 +112,7 @@ object LogConsumerTable {
       1, // optional: write to a single file
       WriteMode.OVERWRITE) // optional: override existing files
 
-    fsTableEnv.registerTableSink(
+    /*fsTableEnv.registerTableSink(
       "res1",
       Array[String]("apiType", "backendResponseCode", "businessResponseCode", "callByte", "callEndTime", "callIp", "callStartTime"
         , "dayId", "errLevel", "gatewayBusinessResponseCode", "gatewayResponseCode", "host", "hourId", "logCnt", "logId", "method"
@@ -176,11 +122,8 @@ object LogConsumerTable {
         , Types.STRING, Types.STRING, Types.STRING, Types.STRING, Types.INT, Types.STRING, Types.INT, Types.STRING, Types.INT, Types.STRING
         , Types.STRING, Types.STRING, Types.STRING, Types.STRING, Types.STRING, Types.STRING, Types.STRING, Types.STRING, Types.STRING
         , Types.INT, Types.STRING, Types.STRING, Types.INT, Types.STRING, Types.STRING, Types.STRING, Types.STRING),
-      sink)
-    stream.insertInto("res1")
-
-
-    // 执行程序
+      sink)*/
+    //    stream.insertInto("res1")
 
     fsTableEnv.execute("wer")
   }
