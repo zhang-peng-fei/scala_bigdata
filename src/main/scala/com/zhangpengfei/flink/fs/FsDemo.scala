@@ -9,6 +9,7 @@ object FsDemo {
 
     val env = StreamExecutionEnvironment.getExecutionEnvironment
 
+
     val a = Array("asdfasd", "12sdgdfg", "sadf", "132sdffffff")
 
 
@@ -21,9 +22,10 @@ object FsDemo {
     hdfsSink.setBatchRolloverInterval(20 * 60 * 1000); // this is 20 mins
 
     env.fromElements(a)
-      .addSink(hdfsSink)
+      .print()
+//      .addSink(hdfsSink)
 
 
-    env.execute("123")
+    env.execute("FSDemo")
   }
 }

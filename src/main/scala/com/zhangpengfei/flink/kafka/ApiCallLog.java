@@ -2,40 +2,134 @@ package com.zhangpengfei.flink.kafka;
 
 public class ApiCallLog {
 
-    String apiType;
-    String backendResponseCode;
-    String businessResponseCode;
-    Integer callByte;
-    String callIp;
-    Long callEndTime;
-    Integer dayId;
-    String errLevel;
-    String gatewayBusinessResponseCode;
-    String gatewayResponseCode;
-    String host;
-    Integer hourId;
-    String logCnt;
-    Integer logId;
-    String method;
-    Integer monthId;
-    String rawData;
-    String reqCnt;
-    Long requestForwardTime;
-    String requestParam;
-    Long requestReceivedTime;
-    String requestSize;
-    Long responseForwardTime;
-    String responseParam;
-    Long responseReceivedTime;
-    String responseSize;
-    Integer resultFlag;
-    String sId;
-    String seqId;
-    Integer subTime;
-    String traceId;
-    String uri;
-    String userAgent;
-    String userId;
+    /**
+     *
+     * dcoosApiId,apiType,backendResponseCode,businessResponseCode,callByte,callIp,callStartTime,callEndTime,dayId,errLevel,errCode,gatewayBusinessResponseCode,gatewayResponseCode,host,hourId,packageId,logCnt,logId,method,monthId,rawData,reqCnt,requestForwardTime,requestParam,requestReceivedTime,requestSize,responseForwardTime,responseParam,responseReceivedTime,responseSize,resultFlag,sId,seqId,subTime,traceId,uri,userAgent,userId;
+     *
+     *
+     * {
+     * "apiType": "3",
+     * "sId": "ideal_lixiang_specialarea_test",
+     * "userId": "fb769e569f334c9b9ceb090ca9620159",
+     * "monthId": 202001,
+     * "dayId": 2,
+     * "hourId": 15,
+     * "packageId": null,
+     * "requestReceivedTime": 1577951764672,
+     * "responseForwardTime": 1577951764682,
+     * "responseSize": "606",
+     * "callByte": "606",
+     * "callIp": "10.142.101.110",
+     * "userAgent": "Java/1.8.0_171",
+     * "responseParam": "{\"code\":\"10000\",\"data\":{\"code\":0,\"message\":[{\"fullName\":\"杨会毅\",\"id\":1246,\"userName\":\"zb_yanghuiyi\",\"roleId\":631,\"roleName\":\"案例配置开发组\"},{\"fullName\":\"田金涛\",\"id\":469,\"userName\":\"tianjintao_tydic\",\"roleId\":631,\"roleName\":\"案例配置开发组\"},{\"fullName\":\"任佳宝\",\"id\":1244,\"userName\":\"zb_renjiabao\",\"roleId\":631,\"roleName\":\"案例配置开发组\"},{\"fullName\":\"许哲\",\"id\":1245,\"userName\":\"zb_xuzhe\",\"roleId\":631,\"roleName\":\"案例配置开发组\"}],\"pageIndex\":1,\"pageSize\":4,\"count\":4,\"pageNums\":1,\"success\":0},\"message\":\"成功\",\"seqid\":\"ae9dc2bf-ce2a-4d25-9592-69dd0f6aa35b\"}",
+     * "seqId": "ae9dc2bf-ce2a-4d25-9592-69dd0f6aa35b",
+     * "requestSize": "20",
+     * "requestParam": "{\"pageEnable\":[\"1\"]}",
+     * "requestForwardTime": 1577951764672,
+     * "responseReceivedTime": 1577951764682,
+     * "resultFlag": 1,
+     * "errLevel": null,
+     * "errCode": null,
+     * "method": "GET",
+     * "host": "10.142.101.156:80",
+     * "uri": "/ideal_lixiang_specialarea_test/project/573/account",
+     * "gatewayBusinessResponseCode": null,
+     * "gatewayResponseCode": "200",
+     * "backendResponseCode": "200",
+     * "businessResponseCode": null
+     * }
+     */
+
+    private String dcoosApiId;
+    private String apiType;
+    private String backendResponseCode;
+    private String businessResponseCode;
+    private Integer callByte;
+    private String callIp;
+    private Long callStartTime;
+    private Long callEndTime;
+    private Integer dayId;
+    private String errLevel;
+    private String errCode;
+    private String gatewayBusinessResponseCode;
+    private String gatewayResponseCode;
+    private String host;
+    private Integer hourId;
+    private String packageId;
+    private String logCnt;
+    private Integer logId;
+    private String method;
+    private Integer monthId;
+    private String rawData;
+    private String reqCnt;
+    private Long requestForwardTime;
+    private String requestParam;
+    private Long requestReceivedTime;
+    private String requestSize;
+    private Long responseForwardTime;
+    private String responseParam;
+    private Long responseReceivedTime;
+    private String responseSize;
+    private Integer resultFlag;
+    private String sId;
+    private String seqId;
+    private Integer subTime;
+    private String traceId;
+    private String uri;
+    private String userAgent;
+    private String userId;
+
+    @Override
+    public String toString() {
+        return
+                dcoosApiId + "\t" +
+                        apiType + "\t" +
+                        backendResponseCode + "\t" +
+                        businessResponseCode + "\t" +
+                        callByte + "\t" +
+                        callIp + "\t" +
+                        callStartTime + "\t" +
+                        callEndTime + "\t" +
+                        dayId + "\t" +
+                        errLevel + "\t" +
+                        errCode + "\t" +
+                        gatewayBusinessResponseCode + "\t" +
+                        gatewayResponseCode + "\t" +
+                        host + "\t" +
+                        hourId + "\t" +
+                        packageId + "\t" +
+                        logCnt + "\t" +
+                        logId + "\t" +
+                        method + "\t" +
+                        monthId + "\t" +
+                        rawData + "\t" +
+                        reqCnt + "\t" +
+                        requestForwardTime + "\t" +
+                        requestParam + "\t" +
+                        requestReceivedTime + "\t" +
+                        requestSize + "\t" +
+                        responseForwardTime + "\t" +
+                        responseParam + "\t" +
+                        responseReceivedTime + "\t" +
+                        responseSize + "\t" +
+                        resultFlag + "\t" +
+                        sId + "\t" +
+                        seqId + "\t" +
+                        subTime + "\t" +
+                        traceId + "\t" +
+                        uri + "\t" +
+                        userAgent + "\t" +
+                        userId + "\t"
+                ;
+    }
+
+    public String getDcoosApiId() {
+        return dcoosApiId;
+    }
+
+    public void setDcoosApiId(String dcoosApiId) {
+        this.dcoosApiId = dcoosApiId;
+    }
 
     public String getApiType() {
         return apiType;
@@ -77,6 +171,14 @@ public class ApiCallLog {
         this.callIp = callIp;
     }
 
+    public Long getCallStartTime() {
+        return callStartTime;
+    }
+
+    public void setCallStartTime(Long callStartTime) {
+        this.callStartTime = callStartTime;
+    }
+
     public Long getCallEndTime() {
         return callEndTime;
     }
@@ -99,6 +201,14 @@ public class ApiCallLog {
 
     public void setErrLevel(String errLevel) {
         this.errLevel = errLevel;
+    }
+
+    public String getErrCode() {
+        return errCode;
+    }
+
+    public void setErrCode(String errCode) {
+        this.errCode = errCode;
     }
 
     public String getGatewayBusinessResponseCode() {
@@ -131,6 +241,14 @@ public class ApiCallLog {
 
     public void setHourId(Integer hourId) {
         this.hourId = hourId;
+    }
+
+    public String getPackageId() {
+        return packageId;
+    }
+
+    public void setPackageId(String packageId) {
+        this.packageId = packageId;
     }
 
     public String getLogCnt() {

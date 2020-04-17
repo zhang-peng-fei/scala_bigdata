@@ -25,7 +25,10 @@ object LogConsumerTable {
     //    val kafka = "10.142.117.55:9093,10.142.117.56:9093,10.142.117.57:9093"
     //    val hdfsPath = "hdfs://10.142.149.245:8082/user/hive/warehouse/api_log/"
 
-    val fsSettings = EnvironmentSettings.newInstance().useOldPlanner().inStreamingMode().build()
+    val fsSettings = EnvironmentSettings.newInstance()
+      .useOldPlanner()
+      .inStreamingMode()
+      .build()
     val env = StreamExecutionEnvironment.getExecutionEnvironment
     //    env.enableCheckpointing(1000)
     val fsTableEnv = StreamTableEnvironment.create(env, fsSettings)
@@ -35,11 +38,10 @@ object LogConsumerTable {
         new Kafka()
           .version("0.10")
           .topic("log_dls")
-          //          .startFromEarliest()
+          .startFromEarliest()
           //          .startFromLatest()
-          .startFromSpecificOffset(0, 30L)
+          .startFromSpecificOffset(0, 0L)
           .property("zookeeper.connect", zookeeper)
-
           .property("bootstrap.servers", kafka))
       .withFormat(
         new Json()
@@ -87,43 +89,10 @@ object LogConsumerTable {
       .inAppendMode()
       .registerTableSource("api_call_log")
     val stream: Table = fsTableEnv.scan("api_call_log")
+    stream
+//      .filter("1")
+      .select("*")
 
-
-    // 注册数据结果表（本地HDFS文件，两种方式[BucketingSink,StreamingFileSink]）
-    val hdfsStream: DataStream[Row] = fsTableEnv.toAppendStream(stream)
-
-    val hdfsSink1 = new BucketingSink[Row](hdfsPath)
-    hdfsSink1.setBucketer(new DateTimeBucketer("yyyy-MM-dd--HHmm", ZoneId.of("America/Los_Angeles")))
-    hdfsSink1.setWriter(new StringWriter[Row])
-    hdfsSink1.setBatchSize(10) //
-    hdfsSink1.setBatchRolloverInterval(20); //
-    hdfsStream.addSink(hdfsSink1)
-
-
-    // 数据处理，读和写(打印到控制台)
-    fsTableEnv
-      .toAppendStream[Row](stream)
-      .print()
-    //      .setParallelism(3)
-    // 注册数据结果表（本地文件）
-    val sink: CsvTableSink = new CsvTableSink(
-      "C:/Users/张朋飞/Desktop/c.txt", // output path
-      "|", // optional: delimit files by '|'
-      1, // optional: write to a single file
-      WriteMode.OVERWRITE) // optional: override existing files
-
-    /*fsTableEnv.registerTableSink(
-      "res1",
-      Array[String]("apiType", "backendResponseCode", "businessResponseCode", "callByte", "callEndTime", "callIp", "callStartTime"
-        , "dayId", "errLevel", "gatewayBusinessResponseCode", "gatewayResponseCode", "host", "hourId", "logCnt", "logId", "method"
-        , "monthId", "rawData", "reqCnt", "requestForwardTime", "requestParam", "requestReceivedTime", "requestSize", "responseForwardTime", "responseParam", "responseReceivedTime"
-        , "responseSize", "resultFlag", "sId", "seqId", "subTime", "traceId", "uri", "userAgent", "userId"),
-      Array[TypeInformation[_]](Types.STRING, Types.STRING, Types.STRING, Types.INT, Types.STRING, Types.STRING, Types.STRING, Types.INT
-        , Types.STRING, Types.STRING, Types.STRING, Types.STRING, Types.INT, Types.STRING, Types.INT, Types.STRING, Types.INT, Types.STRING
-        , Types.STRING, Types.STRING, Types.STRING, Types.STRING, Types.STRING, Types.STRING, Types.STRING, Types.STRING, Types.STRING
-        , Types.INT, Types.STRING, Types.STRING, Types.INT, Types.STRING, Types.STRING, Types.STRING, Types.STRING),
-      sink)*/
-    //    stream.insertInto("res1")
 
     fsTableEnv.execute("wer")
   }

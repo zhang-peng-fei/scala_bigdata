@@ -52,17 +52,19 @@ under the License.
         <spark.version>2.1.1</spark.version>
         <hadoop.version>2.6.0</hadoop.version>
         <hbase.version>1.2.0</hbase.version>
-        <kafka.version>0.10</kafka.version>
+        <kafka.version>0.11</kafka.version>
         <hive.version>2.3.5</hive.version>
+        <phoenix.version>4.14.0-HBase-1.2</phoenix.version>
         <!-- scope -->
         <flink.scope>compile</flink.scope>
-        <scala.scope>provided</scala.scope>
-        <spark.scope>provided</spark.scope>
+        <scala.scope>compile</scala.scope>
+        <spark.scope>compile</spark.scope>
         <hadoop.scope>compile</hadoop.scope>
         <hbase.scope>provided</hbase.scope>
         <hive.scope>provided</hive.scope>
         <flink-connector-filesystem.scope>compile</flink-connector-filesystem.scope>
         <flink-connector-kafka.scope>compile</flink-connector-kafka.scope>
+        <flink-shaded-hadoop-2-uber.scope>compile</flink-shaded-hadoop-2-uber.scope>
     </properties>
 
     <dependencies>
@@ -154,13 +156,12 @@ under the License.
             <version>${flink.version}</version>
             <scope>${flink.scope}</scope>
         </dependency>
-        <dependency>
+        <!--<dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-shaded-hadoop-2-uber</artifactId>
-            <version>2.7.5-8.0</version>
-            <scope>${flink.scope}</scope>
-        </dependency>
-
+            <version>2.6.5-9.0</version>
+            <scope>${flink-shaded-hadoop-2-uber.scope}</scope>
+        </dependency>-->
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-connector-kafka-${kafka.version}_${scala.binary.version}</artifactId>
@@ -178,7 +179,8 @@ under the License.
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-hdfs</artifactId>
-            <version>2.6.0</version>
+            <version>${hadoop.version}</version>
+            <scope>${hadoop.scope}</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.hadoop</groupId>
@@ -203,6 +205,7 @@ under the License.
         <!-- spark 依赖
         1、spark-core
         2、spark-streaming
+        spark-streaming-kafka
         3、spark-sql
         4、spark-sql-kafka
         -->
@@ -217,6 +220,11 @@ under the License.
             <artifactId>spark-streaming_${scala.binary.version}</artifactId>
             <version>${spark.version}</version>
             <scope>${spark.scope}</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-streaming-kafka-0-10_${scala.binary.version}</artifactId>
+            <version>${spark.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.spark</groupId>
@@ -248,6 +256,19 @@ under the License.
             <version>${hbase.version}</version>
             <scope>${hbase.scope}</scope>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.phoenix/phoenix-core -->
+        <dependency>
+            <groupId>org.apache.phoenix</groupId>
+            <artifactId>phoenix-core</artifactId>
+            <version>${phoenix.version}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.apache.phoenix</groupId>
+            <artifactId>phoenix-spark</artifactId>
+            <version>${phoenix.version}</version>
+        </dependency>
         <!-- hbase 依赖结束-->
 
         <!-- 日志依赖 -->
@@ -257,6 +278,13 @@ under the License.
             <version>1.7.7</version>
             <scope>runtime</scope>
         </dependency>
+        <!-- MYSQL依赖 https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.48</version>
+        </dependency>
+
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
