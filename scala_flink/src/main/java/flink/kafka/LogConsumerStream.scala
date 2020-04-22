@@ -1,8 +1,8 @@
-package com.zhangpengfei.flink.kafka
+package flink.kafka
 
 import java.util.Properties
 
-import com.zhangpengfei.util.CommonPro
+import flink.CommonPro
 import org.apache.commons.lang.StringUtils
 import org.apache.flink.api.scala._
 import org.apache.flink.streaming.api.scala.StreamExecutionEnvironment
@@ -13,9 +13,10 @@ import org.apache.flink.table.api.EnvironmentSettings
 import org.apache.flink.table.api.scala.StreamTableEnvironment
 
 /**
-  * 消费api log 到hdfs
-  * 流模式，oldplanner环境变量设置
-  */
+ * 消费api log 到hdfs
+ * 流模式，oldplanner环境变量设置
+ * 启动命令：/opt/flink-1.9.0/bin/flink run -c flink.kafka.LogConsumerStream /data1/tydic/scala_flink-0.1.jar
+ */
 object LogConsumerStream {
 
   def main(args: Array[String]): Unit = {
@@ -34,16 +35,16 @@ object LogConsumerStream {
 
     // 算子逻辑
     val res1 = env.addSource(myConsumer)
-    res1.map(x => x.toString.split("\t")).print()
-//    res1.addSink(hdfsSink)
-
-    env.execute(LogConsumerStream.getClass.toString)
+    res1.map(x => x.toString.split("\t"))
+    res1.addSink(hdfsSink)
+    env.execute(this.getClass.getName)
   }
 
   /**
-    * 初始化 kafka 的验证变量
-    * @return
-    */
+   * 初始化 kafka 的验证变量
+   *
+   * @return
+   */
   private def initSystem: Properties = {
     val sysProp = CommonPro.loadProperties
     if (!StringUtils.isBlank(sysProp.getProperty("java.security.auth.login.config"))) {
@@ -62,10 +63,11 @@ object LogConsumerStream {
   }
 
   /**
-    * 初始化 hdfs
-    * @param hdfsPath
-    * @return
-    */
+   * 初始化 hdfs
+   *
+   * @param hdfsPath
+   * @return
+   */
   private def initHdfsSink(hdfsPath: String): BucketingSink[ApiCallLog] = {
     val hdfsSink = new BucketingSink[ApiCallLog](hdfsPath)
     hdfsSink.setBucketer(new MothBucketer[ApiCallLog])
@@ -76,10 +78,11 @@ object LogConsumerStream {
   }
 
   /**
-    * 初始化 kafka 消费者的配置
-    * @param sysProp
-    * @return
-    */
+   * 初始化 kafka 消费者的配置
+   *
+   * @param sysProp
+   * @return
+   */
   private def initConsumerSource(sysProp: Properties): FlinkKafkaConsumer011[ApiCallLog] = {
     val properties = new Properties()
     properties.setProperty("bootstrap.servers", sysProp.getProperty("bootstrap.servers"))
@@ -107,9 +110,10 @@ object LogConsumerStream {
     val myConsumer = new FlinkKafkaConsumer011("log_dls", new ApiCallLogKafkaDeserializationSchema(), properties)
     //    测试环境指定分区和偏移量
     if ("dev".equals(CommonPro.loadSysProperties.getProperty("profiles.active"))) {
-      val specificStartOffsets = new java.util.HashMap[KafkaTopicPartition, java.lang.Long]()
-      specificStartOffsets.put(new KafkaTopicPartition("log_dls", 0), 0L)
-      myConsumer.setStartFromSpecificOffsets(specificStartOffsets)
+//      val specificStartOffsets = new java.util.HashMap[KafkaTopicPartition, java.lang.Long]()
+//      specificStartOffsets.put(new KafkaTopicPartition("log_dls", 0), 0L)
+//      myConsumer.setStartFromSpecificOffsets(specificStartOffsets)
+      myConsumer.setStartFromEarliest()
     } else {
       myConsumer.setStartFromEarliest()
     }

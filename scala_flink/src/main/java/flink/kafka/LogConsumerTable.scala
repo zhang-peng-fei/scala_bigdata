@@ -1,4 +1,4 @@
-package com.zhangpengfei.flink.kafka
+package flink.kafka
 
 import java.time.ZoneId
 

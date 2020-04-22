@@ -1,4 +1,4 @@
-package com.zhangpengfei.flink.kafka;
+package flink.kafka;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;

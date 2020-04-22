@@ -1,4 +1,4 @@
-package com.zhangpengfei.flink.kafka;
+package flink.kafka;
 
 import org.apache.flink.streaming.connectors.fs.Clock;
 import org.apache.flink.streaming.connectors.fs.bucketing.Bucketer;

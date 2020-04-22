@@ -1,13 +1,15 @@
-package com.zhangpengfei.flink.kafka;
+package flink.kafka;
 
 import org.apache.flink.api.common.typeinfo.TypeInformation;
 import org.apache.flink.api.java.typeutils.TypeExtractor;
-import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.JsonNode;
 import org.apache.flink.streaming.connectors.kafka.KafkaDeserializationSchema;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.ObjectMapper;
 
 
+/**
+ * @author 张朋飞
+ */
 public class ApiCallLogKafkaDeserializationSchema implements KafkaDeserializationSchema<ApiCallLog> {
 
     private ObjectMapper mapper;

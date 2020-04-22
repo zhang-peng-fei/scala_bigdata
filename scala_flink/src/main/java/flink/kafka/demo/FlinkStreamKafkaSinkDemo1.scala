@@ -1,4 +1,4 @@
-package com.zhangpengfei.flink.kafka.demo
+package flink.kafka.demo
 import org.apache.flink.api.scala._
 
 import org.apache.flink.streaming.api.scala.{DataStream, StreamExecutionEnvironment}

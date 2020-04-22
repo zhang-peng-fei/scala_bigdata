@@ -1,12 +1,11 @@
-package com.zhangpengfei.flink.kafka;
+package flink.kafka;
 
 public class ApiCallLog {
 
     /**
-     *
      * dcoosApiId,apiType,backendResponseCode,businessResponseCode,callByte,callIp,callStartTime,callEndTime,dayId,errLevel,errCode,gatewayBusinessResponseCode,gatewayResponseCode,host,hourId,packageId,logCnt,logId,method,monthId,rawData,reqCnt,requestForwardTime,requestParam,requestReceivedTime,requestSize,responseForwardTime,responseParam,responseReceivedTime,responseSize,resultFlag,sId,seqId,subTime,traceId,uri,userAgent,userId;
-     *
-     *
+     * <p>
+     * <p>
      * {
      * "apiType": "3",
      * "sId": "ideal_lixiang_specialarea_test",
@@ -82,44 +81,44 @@ public class ApiCallLog {
     @Override
     public String toString() {
         return
-                dcoosApiId + "\t" +
-                        apiType + "\t" +
-                        backendResponseCode + "\t" +
-                        businessResponseCode + "\t" +
-                        callByte + "\t" +
-                        callIp + "\t" +
-                        callStartTime + "\t" +
-                        callEndTime + "\t" +
-                        dayId + "\t" +
-                        errLevel + "\t" +
-                        errCode + "\t" +
-                        gatewayBusinessResponseCode + "\t" +
-                        gatewayResponseCode + "\t" +
-                        host + "\t" +
-                        hourId + "\t" +
-                        packageId + "\t" +
-                        logCnt + "\t" +
-                        logId + "\t" +
-                        method + "\t" +
-                        monthId + "\t" +
-                        rawData + "\t" +
-                        reqCnt + "\t" +
-                        requestForwardTime + "\t" +
-                        requestParam + "\t" +
-                        requestReceivedTime + "\t" +
-                        requestSize + "\t" +
-                        responseForwardTime + "\t" +
-                        responseParam + "\t" +
-                        responseReceivedTime + "\t" +
-                        responseSize + "\t" +
-                        resultFlag + "\t" +
-                        sId + "\t" +
-                        seqId + "\t" +
-                        subTime + "\t" +
-                        traceId + "\t" +
-                        uri + "\t" +
-                        userAgent + "\t" +
-                        userId + "\t"
+                dcoosApiId + "\u0001" +
+                        apiType + "\u0001" +
+                        backendResponseCode + "\u0001" +
+                        businessResponseCode + "\u0001" +
+                        callByte + "\u0001" +
+                        callIp + "\u0001" +
+                        callStartTime + "\u0001" +
+                        callEndTime + "\u0001" +
+                        dayId + "\u0001" +
+                        errLevel + "\u0001" +
+                        errCode + "\u0001" +
+                        gatewayBusinessResponseCode + "\u0001" +
+                        gatewayResponseCode + "\u0001" +
+                        host + "\u0001" +
+                        hourId + "\u0001" +
+                        packageId + "\u0001" +
+                        logCnt + "\u0001" +
+                        logId + "\u0001" +
+                        method + "\u0001" +
+                        monthId + "\u0001" +
+                        rawData + "\u0001" +
+                        reqCnt + "\u0001" +
+                        requestForwardTime + "\u0001" +
+                        requestParam + "\u0001" +
+                        requestReceivedTime + "\u0001" +
+                        requestSize + "\u0001" +
+                        responseForwardTime + "\u0001" +
+                        responseParam + "\u0001" +
+                        responseReceivedTime + "\u0001" +
+                        responseSize + "\u0001" +
+                        resultFlag + "\u0001" +
+                        sId + "\u0001" +
+                        seqId + "\u0001" +
+                        subTime + "\u0001" +
+                        traceId + "\u0001" +
+                        uri + "\u0001" +
+                        userAgent + "\u0001" +
+                        userId + "\u0001"
                 ;
     }
 

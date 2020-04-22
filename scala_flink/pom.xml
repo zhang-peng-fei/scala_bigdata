@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>scala_bigData</artifactId>
+        <groupId>com.zhangpengfei.bigData</groupId>
+        <version>0.1</version>
+    </parent>
+    <artifactId>scala_flink</artifactId>
+    <modelVersion>4.0.0</modelVersion>
+
+    <properties>
+        <!-- version -->
+        <scala.binary.version>2.11</scala.binary.version>
+        <flink.version>1.9.0</flink.version>
+        <!-- scope -->
+        <flink.scope>compile</flink.scope>
+        <flink-connector-filesystem.scope>compile</flink-connector-filesystem.scope>
+        <flink-connector-kafka.scope>compile</flink-connector-kafka.scope>
+        <flink-connector-hive.scope>compile</flink-connector-hive.scope>
+        <flink-shaded-hadoop-2-uber.scope>compile</flink-shaded-hadoop-2-uber.scope>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.zhangpengfei.bigData</groupId>
+            <artifactId>scala_bigData</artifactId>
+            <version>0.1</version>
+        </dependency>
+        <!-- Apache Flink 依赖
+            1、flink-scala
+            2、flink-streaming-scala
+            3、flink-table-common
+            4、flink-table-api-scala
+            5、flink-table-api-scala-bridge
+            6、flink-connector-kafka
+            7、flink-json
+             -->
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-scala_${scala.binary.version}</artifactId>
+            <version>${flink.version}</version>
+            <scope>${flink.scope}</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-streaming-scala_${scala.binary.version}</artifactId>
+            <version>${flink.version}</version>
+            <scope>${flink.scope}</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-table-common</artifactId>
+            <version>${flink.version}</version>
+            <scope>${flink.scope}</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-table-planner_${scala.binary.version}</artifactId>
+            <version>${flink.version}</version>
+            <scope>${flink.scope}</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-table-api-java</artifactId>
+            <version>${flink.version}</version>
+            <scope>${flink.scope}</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-table-api-java-bridge_${scala.binary.version}</artifactId>
+            <version>${flink.version}</version>
+            <scope>${flink.scope}</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-table-api-scala_${scala.binary.version}</artifactId>
+            <version>${flink.version}</version>
+            <scope>${flink.scope}</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-table-api-scala-bridge_${scala.binary.version}</artifactId>
+            <version>${flink.version}</version>
+            <scope>${flink.scope}</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-json</artifactId>
+            <version>${flink.version}</version>
+            <scope>${flink.scope}</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-hadoop-compatibility_${scala.binary.version}</artifactId>
+            <version>${flink.version}</version>
+            <scope>${flink.scope}</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>xml-apis</groupId>
+                    <artifactId>xml-apis</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-connector-hive_${scala.binary.version}</artifactId>
+            <version>${flink.version}</version>
+            <scope>${flink-connector-hive.scope}</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-connector-filesystem_${scala.binary.version}</artifactId>
+            <version>${flink.version}</version>
+            <scope>${flink-connector-filesystem.scope}</scope>
+        </dependency>
+        <!--<dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-shaded-hadoop-2-uber</artifactId>
+            <version>2.6.5-9.0</version>
+            <scope>${flink-shaded-hadoop-2-uber.scope}</scope>
+        </dependency>-->
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-connector-kafka-${kafka.version}_${scala.binary.version}</artifactId>
+            <version>${flink.version}</version>
+            <scope>${flink-connector-kafka.scope}</scope>
+        </dependency>
+        <!-- flink 依赖结束-->
+
+
+    </dependencies>
+
+</project>

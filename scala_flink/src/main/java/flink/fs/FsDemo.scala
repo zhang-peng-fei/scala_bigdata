@@ -1,4 +1,4 @@
-package com.zhangpengfei.flink.fs
+package flink.fs
 
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment
 import org.apache.flink.streaming.connectors.fs.bucketing.{BucketingSink, DateTimeBucketer}
@@ -21,9 +21,11 @@ object FsDemo {
     hdfsSink.setBatchSize(1024 * 1024 * 400) // this is 400 MB,
     hdfsSink.setBatchRolloverInterval(20 * 60 * 1000); // this is 20 mins
 
-    env.fromElements(a)
-      .print()
-//      .addSink(hdfsSink)
+    val value = env.fromElements(a)
+
+    value
+//      .print()
+      .addSink(hdfsSink)
 
 
     env.execute("FSDemo")
