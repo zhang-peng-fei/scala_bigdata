@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/bigdata.iml" filepath="$PROJECT_DIR$/bigdata.iml" />
+      <module fileurl="file://$PROJECT_DIR$/scala_bigData.iml" filepath="$PROJECT_DIR$/scala_bigData.iml" />
+      <module fileurl="file://$PROJECT_DIR$/scala_flink/scala_flink.iml" filepath="$PROJECT_DIR$/scala_flink/scala_flink.iml" />
+      <module fileurl="file://$PROJECT_DIR$/scala_hbase/scala_hbase.iml" filepath="$PROJECT_DIR$/scala_hbase/scala_hbase.iml" />
+      <module fileurl="file://$PROJECT_DIR$/scala_spark/scala_spark.iml" filepath="$PROJECT_DIR$/scala_spark/scala_spark.iml" />
     </modules>
   </component>
 </project>

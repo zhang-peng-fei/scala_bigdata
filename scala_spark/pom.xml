@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>scala_bigData</artifactId>
+        <groupId>com.zhangpengfei.bigData</groupId>
+        <version>0.1</version>
+    </parent>
+    <artifactId>scala_spark</artifactId>
+    <modelVersion>4.0.0</modelVersion>
+
+    <properties>
+        <spark.version>2.1.1</spark.version>
+        <spark.scope>compile</spark.scope>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.zhangpengfei.bigData</groupId>
+            <artifactId>scala_bigData</artifactId>
+            <version>0.1</version>
+        </dependency>
+        <!-- spark 依赖
+        1、spark-core
+        2、spark-streaming
+        spark-streaming-kafka
+        3、spark-sql
+        4、spark-sql-kafka
+        -->
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-core_${scala.binary.version}</artifactId>
+            <version>${spark.version}</version>
+            <scope>${spark.scope}</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-streaming_${scala.binary.version}</artifactId>
+            <version>${spark.version}</version>
+            <scope>${spark.scope}</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-streaming-kafka-0-10_${scala.binary.version}</artifactId>
+            <version>${spark.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-sql_${scala.binary.version}</artifactId>
+            <version>${spark.version}</version>
+            <scope>${spark.scope}</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-sql-kafka-0-10_${scala.binary.version}</artifactId>
+            <version>${spark.version}</version>
+            <scope>${spark.scope}</scope>
+        </dependency>
+        <!-- spark 依赖结束-->
+    </dependencies>
+</project>
