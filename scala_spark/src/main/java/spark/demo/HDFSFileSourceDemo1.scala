@@ -22,7 +22,7 @@ object HDFSFileSourceDemo1 {
     val value1 = distData.reduce((a, b) => a + b)
 
 
-    val distFile = sc.textFile("F:\\workSpace\\IdeaProjects\\b_learning\\scala_flink\\src\\main\\resources\\fileDir\\people.txt", 2)
+    val distFile = sc.textFile("F:\\workSpace\\IdeaProjects\\b_learning\\scala_flink\\src\\main\\resources\\fileDir\\people.json", 2)
     val value2 = distFile.map(s => s.length)
     value2.persist()
     val totalLength = value2.reduce((a, b) => a + b)
