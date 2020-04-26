@@ -5,6 +5,9 @@ import org.apache.spark.sql.{Row, SparkSession}
 import org.apache.spark.sql.types.{StringType, StructField, StructType}
 import spark.utils.CommUtil
 
+/**
+  * Spark Sql官网样例Demo，DataSet和DataFrame
+  */
 object DatasetsAndDataFramesDemo1 {
 
   // Note: Case classes in Scala 2.10 can support only up to 22 fields. To work around this limit,
@@ -128,5 +131,29 @@ object DatasetsAndDataFramesDemo1 {
     // The results of SQL queries are DataFrames and support all the normal RDD operations
     // The columns of a row in the result can be accessed by field index or by field name
     results.map(attributes => "Name: " + attributes(0)).show()
+    val userParquetPath = CommUtil.getResourcePath + "users.parquet"
+    val usersDF = spark.read.load(userParquetPath)
+    usersDF.select("name", "favorite_color").write.save(CommUtil.getResourcePath + "namesAndFavColors.parquet")
+
+    val peopleDF3 = spark.read.format("json").load(peopleJsonPath)
+    peopleDF3.select("name", "age").write.format("parquet").save("namesAndAges.parquet")
+    // 也可以使用 SQL 直接查询该文件
+    val sqlDF2 = spark.sql("SELECT * FROM parquet.'" + userParquetPath + "'")
+    sqlDF2.write.mode("overwrite").saveAsTable("sqlDF2")
+    // Parquet Files--Loading Data Programmatically
+    val peopleDF4 = spark.read.json(peopleJsonPath)
+
+    // DataFrames can be saved as Parquet files, maintaining the schema information
+    peopleDF4.write.parquet("people.parquet")
+
+    // Read in the parquet file created above
+    // Parquet files are self-describing so the schema is preserved
+    // The result of loading a Parquet file is also a DataFrame
+    val parquetFileDF = spark.read.parquet("people.parquet")
+
+    // Parquet files can also be used to create a temporary view and then used in SQL statements
+    parquetFileDF.createOrReplaceTempView("parquetFile")
+    val namesDF = spark.sql("SELECT name FROM parquetFile WHERE age BETWEEN 13 AND 19")
+    namesDF.map(attributes => "Name: " + attributes(0)).show()
   }
 }
