@@ -35,7 +35,7 @@ object SparkDataFrameMysqlSinkDemo1 {
      */
 
 
-    val rdd = spark.sparkContext.textFile(CommUtils.filePath+"fileDir\\people.txt")
+    val rdd = spark.sparkContext.textFile(CommUtils.filePath+"fileDir\\people.json")
 
     val rdd2 = rdd.flatMap(_.split(", ")).distinct().zipWithIndex().map(t =>{Row(t._1,t._2)})
 
