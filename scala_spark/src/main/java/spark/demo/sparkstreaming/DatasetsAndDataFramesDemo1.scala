@@ -128,5 +128,52 @@ object DatasetsAndDataFramesDemo1 {
     // The results of SQL queries are DataFrames and support all the normal RDD operations
     // The columns of a row in the result can be accessed by field index or by field name
     results.map(attributes => "Name: " + attributes(0)).show()
+
+    // Create a simple DataFrame, store into a partition directory
+    val squaresDF = spark.sparkContext.makeRDD(1 to 5).map(i => (i, i * i)).toDF("value", "square")
+    squaresDF.write.mode("overwrite").parquet("data/test_table1/key=1")
+
+    // Create another DataFrame in a new partition directory,
+    // adding a new column and dropping an existing column
+    val cubesDF = spark.sparkContext.makeRDD(6 to 10).map(i => (i, i * i * i)).toDF("value", "cube")
+    cubesDF.write.parquet("data/test_table1/key=2")
+
+    // Read the partitioned table
+    val mergedDF = spark.read.option("mergeSchema", "true").parquet("data/test_table")
+    mergedDF.printSchema()
+
+    // The final schema consists of all 3 columns in the Parquet files together
+    // with the partitioning column appeared in the partition directory paths
+
+    // spark is an existing SparkSession
+    spark.catalog.refreshTable("my_table")
+
+    // A JSON dataset is pointed to by path.
+    // The path can be either a single text file or a directory storing text files
+    val peopleDF1 = spark.read.json(peopleJsonPath)
+
+    // The inferred schema can be visualized using the printSchema() method
+    peopleDF1.printSchema()
+
+    // Creates a temporary view using the DataFrame
+    peopleDF1.createOrReplaceTempView("people")
+
+    // SQL statements can be run by using the sql methods provided by spark
+    val teenagerNamesDF = spark.sql("SELECT name FROM people WHERE age BETWEEN 13 AND 19")
+    teenagerNamesDF.show()
+
+    // Alternatively, a DataFrame can be created for a JSON dataset represented by
+    // an RDD[String] storing one JSON object per string
+    val otherPeopleRDD = spark.sparkContext.makeRDD(
+      """{"name":"Yin","address":{"city":"Columbus","state":"Ohio"}}""" :: Nil)
+    val otherPeople = spark.read.json(otherPeopleRDD)
+    otherPeople.show()
+
+
+
+
+
+
+
   }
 }
