@@ -14,9 +14,9 @@ object SparkDataFrameMysqlSinkDemo1 {
       .master("local[2]")
       .getOrCreate()
     /**
-      * 方法一
-      * spark.read.jdbc
-      */
+     * 方法一
+     * spark.read.jdbc
+     */
     val prop = new Properties()
     prop.put("user", "root")
     prop.put("password", "root")
@@ -29,28 +29,25 @@ object SparkDataFrameMysqlSinkDemo1 {
     // 先读出，再写入另外一个表
     dataSet.write.mode(SaveMode.Append).jdbc(url, "test1", prop)
     /**
-      * 方法二
-      * 通过构建DataFrame再写入
-      * dataFrame.write.mode.jdbc
-      */
+     * 方法二
+     * 通过构建DataFrame再写入
+     * dataFrame.write.mode.jdbc
+     */
 
 
-    val rdd = spark.sparkContext.textFile(CommUtils.filePath + "fileDir\\people.json")
+    val rdd = spark.sparkContext.textFile(CommUtils.filePath+"fileDir\\people.txt")
 
-    val rdd2 = rdd.flatMap(_.split(", ")).distinct().zipWithIndex().map(t => {
-      Row(t._1, t._2)
-    })
+    val rdd2 = rdd.flatMap(_.split(", ")).distinct().zipWithIndex().map(t =>{Row(t._1,t._2)})
 
-    val schema = StructType {
+    val schema = StructType{
       List(
-        StructField("name", StringType, true),
-        StructField("age", LongType, true)
-      )
-    }
+        StructField("name",StringType,true),
+        StructField("age",LongType,true)
+      )}
 
-    val dataFrame: DataFrame = spark.createDataFrame(rdd2, schema)
+    val dataFrame:DataFrame = spark.createDataFrame(rdd2,schema)
 
-    dataFrame.write.mode(SaveMode.Overwrite).jdbc(url, "test", prop)
+    dataFrame.write.mode(SaveMode.Overwrite).jdbc(url,"test",prop)
 
 
     spark.stop()
