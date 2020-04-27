@@ -28,7 +28,7 @@ object RDD2DateFrameDemo1 {
      * 方法一
      * 使用反射机制推理出schema
      */
-    val path = CommUtils.filePath+"fileDir\\people.txt"
+    val path = CommUtils.filePath+"fileDir\\people.json"
 
     import ss.implicits._
     val sc = ss.sparkContext

@@ -19,8 +19,8 @@ object FileSourceDemo1 {
     val sparkContext = new SparkContext(sparkConf)
     val streamingContext = new StreamingContext(sparkContext, Seconds(5))
 
-    // F:\workSpace\IdeaProjects\b_learning\scala_flink\src\main\resources\fileDir\people.txt
-    val streamTextFile = streamingContext.textFileStream(CommUtils.filePath + "fileDir\\people.txt")
+    // F:\workSpace\IdeaProjects\b_learning\scala_flink\src\main\resources\fileDir\people.json
+    val streamTextFile = streamingContext.textFileStream(CommUtils.filePath + "fileDir\\people.json")
     LOGGER.info("streamTextFile" + LOG_TAG)
     streamTextFile.flatMap(x => x.split(" "))
       .print()
@@ -31,7 +31,7 @@ object FileSourceDemo1 {
 //    fileStream.map(x => x._1)
 //      .print()
 
-//    streamingContext.textFileStream(CommUtils.filePath + "fileDir\\people.txt")
+//    streamingContext.textFileStream(CommUtils.filePath + "fileDir\\people.json")
 //      .flatMap(x => x.split(" "))
 //      .print()
 

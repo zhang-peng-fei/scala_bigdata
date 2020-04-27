@@ -5,7 +5,9 @@ import org.apache.spark.sql.expressions.{MutableAggregationBuffer, UserDefinedAg
 import org.apache.spark.sql.types.{DataType, DoubleType, LongType, StructField, StructType}
 import spark.utils.CommUtil
 
-
+/**
+  * Spark自定义聚合函数，以平均函数为例
+  */
 object AverageAggregateFunctionDemo1 extends UserDefinedAggregateFunction {
   // Data types of input arguments of this aggregate function
   def inputSchema: StructType = StructType(StructField("inputColumn", LongType) :: Nil)
@@ -64,5 +66,7 @@ object AverageAggregateFunctionDemo1 extends UserDefinedAggregateFunction {
 
     val result = spark.sql("SELECT myAverage(salary) as average_salary FROM employees")
     result.show()
+
+
   }
 }
