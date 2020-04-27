@@ -8,6 +8,9 @@ import org.apache.spark.sql.types.{StringType, StructField, StructType}
 import spark.SparkHiveExample.Record
 import spark.utils.CommUtil
 
+/*
+
+ */
 object DatasetsAndDataFramesDemo1 {
 
   // Note: Case classes in Scala 2.10 can support only up to 22 fields. To work around this limit,
@@ -19,8 +22,8 @@ object DatasetsAndDataFramesDemo1 {
       .builder()
       .appName("Spark SQL basic example")
       .master("local[2]")
-      .config("spark.sql.warehouse.dir", "warehouseLocation")
-      .enableHiveSupport()
+//      .config("spark.sql.warehouse.dir", "warehouseLocation")
+//      .enableHiveSupport()
       .getOrCreate()
     Logger.getLogger("org").setLevel(Level.ERROR)
     //    Logger.getRootLogger.setLevel(Level.WARN)
@@ -156,7 +159,7 @@ object DatasetsAndDataFramesDemo1 {
     // Parquet files can also be used to create a temporary view and then used in SQL statements
     parquetFileDF.createOrReplaceTempView("parquetFile")
     val namesDF = spark.sql("SELECT name FROM parquetFile WHERE age BETWEEN 13 AND 19")
-    namesDF.map(attributes => "Name: " + attributes(0)).show()
+//    namesDF.map(attributes => "Name: " + attributes(0)).show()
 
     // Create a simple DataFrame, store into a partition directory
     val squaresDF = spark.sparkContext.makeRDD(1 to 5).map(i => (i, i * i)).toDF("value", "square")
@@ -173,7 +176,7 @@ object DatasetsAndDataFramesDemo1 {
     mergedDF.show()
 
     // spark is an existing SparkSession
-    spark.catalog.refreshTable("my_table")
+//    spark.catalog.refreshTable("my_table")
 
     val peopleDF5 = spark.read.json(peopleJsonPath)
 
@@ -255,13 +258,13 @@ object DatasetsAndDataFramesDemo1 {
 
     // In 1.3.x, in order for the grouping column "department" to show up,
     // it must be included explicitly as part of the agg function call.
-//    df.groupBy("department").agg($"department", max("age"), sum("expense"))
+    //    df.groupBy("department").agg($"department", max("age"), sum("expense"))
 
     // In 1.4+, grouping column "department" is included automatically.
-//    df.groupBy("department").agg(max("age"), sum("expense"))
+    //    df.groupBy("department").agg(max("age"), sum("expense"))
 
     // Revert to 1.3 behavior (not retaining grouping column) by:
-//    sqlContext.setConf("spark.sql.retainGroupColumns", "false")
+    //    sqlContext.setConf("spark.sql.retainGroupColumns", "false")
 
 
   }
