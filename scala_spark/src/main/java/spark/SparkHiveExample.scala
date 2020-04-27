@@ -17,6 +17,7 @@
 package spark
 
 // $example on:spark_hive$
+
 import java.io.File
 
 import org.apache.spark.sql.{Row, SaveMode, SparkSession}
@@ -27,6 +28,7 @@ object SparkHiveExample {
 
   // $example on:spark_hive$
   case class Record(key: Int, value: String)
+
   // $example off:spark_hive$
 
   def main(args: Array[String]): Unit = {
